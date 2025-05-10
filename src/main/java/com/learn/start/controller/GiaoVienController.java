@@ -26,7 +26,6 @@ public class GiaoVienController {
         return ResponseEntity.ok(new Res<>(true, MessageConstrains.SUCCESS,giaoVienService.getGiaoVien()));
     }
 
-
     @GetMapping("/{id}")
     public ResponseEntity<Res<?>> list(@PathVariable int id) {
 

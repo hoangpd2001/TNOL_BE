@@ -2,9 +2,23 @@ package com.learn.start.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.web.multipart.MultipartFile;
 
 public class CauHoiDTO_Req {
     private Integer id;
+    private Integer soThuTu;
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getSoThuTu() {
+        return soThuTu;
+    }
+
+    public void setSoThuTu(Integer soThuTu) {
+        this.soThuTu = soThuTu;
+    }
 
     @NotNull(message = "ID chương không được để trống")
     private Integer idChuong;
@@ -26,19 +40,18 @@ public class CauHoiDTO_Req {
     @NotBlank(message = "Đáp án không được để trống")
     private String dapAn;
 
-    private String hinhAnh;
+    private MultipartFile  hinhAnh;
 
-    @NotNull(message = "Trạng thái không được để trống")
     private Integer trangThai;
 
     private String chiTiet;
-    private String hinhAnhDa;
+    private MultipartFile   hinhAnhDa;
 
-    public String getHinhAnhDa() {
+    public MultipartFile  getHinhAnhDa() {
         return hinhAnhDa;
     }
 
-    public void setHinhAnhDa(String hinhAnhDa) {
+    public void setHinhAnhDa(MultipartFile  hinhAnhDa) {
         this.hinhAnhDa = hinhAnhDa;
     }
     public String getChiTiet() {
@@ -137,11 +150,11 @@ public class CauHoiDTO_Req {
         this.dapAn = dapAn;
     }
 
-    public String getHinhAnh() {
+    public MultipartFile getHinhAnh() {
         return hinhAnh;
     }
 
-    public void setHinhAnh(String hinhAnh) {
+    public void setHinhAnh(MultipartFile  hinhAnh) {
         this.hinhAnh = hinhAnh;
     }
 

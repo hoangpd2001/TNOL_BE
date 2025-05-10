@@ -1,5 +1,7 @@
 package com.learn.start.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.learn.start.constants.MessageConstrains;
 import com.learn.start.dto.request.CauHoiDTO_Req;
 import com.learn.start.dto.response.CauHoiDTO_Res;
@@ -12,8 +14,18 @@ import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/cauhoi")
@@ -52,6 +64,49 @@ public class CauHoiController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new Res<>(false, MessageConstrains.ERROR, null));        }
     }
+    @PostMapping("/import2")
+    public ResponseEntity<?> importCauHoi(
+            @RequestPart("cauHoiListJson") String cauHoiListJson,
+            @RequestPart(name = "hinhAnhList", required = false) List<MultipartFile> hinhAnh,
+            @RequestPart(name = "hinhAnhDaList", required = false) List<MultipartFile> hinhAnhDa
+    ) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<CauHoiDTO_Req> list = objectMapper.readValue(cauHoiListJson,
+                new TypeReference<List<CauHoiDTO_Req>>() {});
+        if (hinhAnh != null) {
+            System.out.println("hinh anh : " + hinhAnh.size());
+            for (int i = 0; i < hinhAnh.size(); i++) {
+                MultipartFile file = hinhAnh.get(i);
+                String originalFileName = file.getOriginalFilename();
+                String stt = originalFileName.split("\\.")[0];
+                int sttNumber = Integer.parseInt(stt);
+                list.get(sttNumber -1 ).setHinhAnh(file);
+            }
+        }else{
+
+        }
+        if (hinhAnhDa != null) {
+            for (int i = 0; i < hinhAnhDa.size(); i++) {
+                MultipartFile file = hinhAnhDa.get(i);
+                String originalFileName = file.getOriginalFilename();
+                String stt = originalFileName.split("\\.")[0];
+                int sttNumber = Integer.parseInt(stt);
+                list.get(sttNumber -1 ).setHinhAnhDa(file);
+            }
+        }
+        Integer res = cauHoiService.importQuestionsImage(list);
+        if(res > 0 ) {
+            System.out.println(res);
+            return ResponseEntity.ok(new Res(true, MessageConstrains.SUCCESS, res));
+
+            }
+        else{
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new Res<>(false, MessageConstrains.ERROR, null));
+        }
+    }
+
+
 //    @GetMapping("/{id}")
 //    public ResponseEntity<CauHoi> getCauHoiById(@PathVariable int id) {
 //        return cauHoiService.getById(id)

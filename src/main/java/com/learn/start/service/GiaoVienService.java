@@ -46,18 +46,18 @@ public class GiaoVienService {
 
     }
     public GiaoVienDTO_Res getGiaoVienById(Integer id) {
-//        Optional<GiaoVien> gv = giaoVienRepository.findById(id);
-//        if (gv.isPresent()) {
-//            GiaoVienDTO_Res res = new GiaoVienDTO_Res();
-//            res.setId(gv.get().getId());
-//            res.setHoTen(gv.get().getHoTen());
-//            res.setTruong(gv.get().getTruong());
-//            res.setCccd(gv.get().getCccd());
-//            res.setSdt(gv.get().getSdt());
-//            res.setGmail(gv.get().getGmail());
-//            res.setTrangThai(gv.get().getTrangThai());
-//            return res;
-//        }
+        Optional<GiaoVien> gv = giaoVienRepository.findById(id);
+        if (gv.isPresent()) {
+            GiaoVienDTO_Res res = new GiaoVienDTO_Res();
+            res.setId(gv.get().getId());
+            res.setHoTen(gv.get().getHoTen());
+            res.setTruong(gv.get().getTruong());
+            res.setCccd(gv.get().getCccd());
+            res.setSdt(gv.get().getSdt());
+            res.setGmail(gv.get().getGmail());
+            res.setTrangThai(gv.get().getTrangThai());
+            return res;
+        }
         return null;
     }
     public GiaoVienDTO_Res CreateGiaoVien(GiaoVienDTO_Req req) throws ParseException {
