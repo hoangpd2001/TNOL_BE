@@ -2,6 +2,7 @@ package com.learn.start.service;
 
 import com.learn.start.dto.request.MonDTO_Req;
 import com.learn.start.dto.response.MonDTO_Res;
+import com.learn.start.entity.Lop;
 import com.learn.start.entity.Mon;
 import com.learn.start.repository.MonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,19 +23,19 @@ public class MonService {
             MonDTO_Res monDTO_Res = new MonDTO_Res();
             monDTO_Res.setId(mon.getId());
             monDTO_Res.setTenMon(mon.getTenMon());
-            monDTO_Res.setIdLop(mon.getIdLop());
+            monDTO_Res.setIdLop(mon.getLop().getID());
             res.add(monDTO_Res);
             }
         return res;
     }
     public List<MonDTO_Res> getMonByLop(int idLop){
-        List<Mon> list =  monRepository.findByIdLop(idLop);
+        List<Mon> list =  monRepository.findByLop_Id(idLop);
         List<MonDTO_Res> res = new ArrayList<MonDTO_Res>();
         for (Mon mon : list) {
             MonDTO_Res monDTO_Res = new MonDTO_Res();
             monDTO_Res.setId(mon.getId());
             monDTO_Res.setTenMon(mon.getTenMon());
-            monDTO_Res.setIdLop(mon.getIdLop());
+            monDTO_Res.setIdLop(mon.getLop().getID());
             res.add(monDTO_Res);
         }
         return res;
@@ -45,7 +46,7 @@ public class MonService {
             MonDTO_Res monDTO_Res = new MonDTO_Res();
             monDTO_Res.setId(mon.get().getId());
             monDTO_Res.setTenMon(mon.get().getTenMon());
-            monDTO_Res.setIdLop(mon.get().getIdLop());
+            monDTO_Res.setIdLop(mon.get().getLop().getID());
             return Optional.of(monDTO_Res);
         }
         return Optional.empty();
@@ -53,7 +54,7 @@ public class MonService {
     public MonDTO_Res addMon(MonDTO_Req monDTO_Req) {
         Mon mon = new Mon();
         mon.setTenMon(monDTO_Req.getTenMon());
-        mon.setIdLop(monDTO_Req.getIdLop());
+        mon.setLop(new Lop(monDTO_Req.getIdLop()));
         monRepository.save(mon);
         MonDTO_Res monDTO_Res = new MonDTO_Res();
         monDTO_Res.setId(mon.getId());
@@ -64,7 +65,7 @@ public class MonService {
         Mon mon = new Mon();
         mon.setId(monDTO_Req.getId());
         mon.setTenMon(monDTO_Req.getTenMon());
-        mon.setIdLop(monDTO_Req.getIdLop());
+        mon.setLop(new Lop(monDTO_Req.getIdLop()));
         monRepository.save(mon);
         MonDTO_Res monDTO_Res = new MonDTO_Res();
         monDTO_Res.setId(mon.getId());
@@ -79,7 +80,7 @@ public class MonService {
           MonDTO_Res monDTO_Res = new MonDTO_Res();
           monDTO_Res.setId(mon.get().getId());
           monDTO_Res.setTenMon(mon.get().getTenMon());
-          monDTO_Res.setIdLop(mon.get().getIdLop());
+          monDTO_Res.setIdLop(mon.get().getLop().getID());
           return Optional.of(monDTO_Res);
       }
       return Optional.empty();

@@ -9,6 +9,5 @@ import java.util.List;
 
 @Repository
 public interface MonRepository extends JpaRepository<Mon, Integer> {
-    @Query("SELECT m FROM Mon m WHERE m.idLop = :idLop")
-    List<Mon> findByIdLop(int idLop);
+    List<Mon> findByLop_Id(int idLop);
 }

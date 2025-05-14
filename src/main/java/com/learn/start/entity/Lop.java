@@ -8,24 +8,28 @@ public class Lop {
     @Id
     @Column(name="ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int ID;
+    private Integer id;
     @Column(name="TENLOP")
     private String tenLop;
 
     public Lop() {
     }
 
+    public Lop(Integer ID) {
+        this.id = ID;
+    }
+
     public Lop(int ID, String tenLop) {
-        this.ID = ID;
+        this.id = ID;
         this.tenLop = tenLop;
     }
 
     public int getID() {
-        return ID;
+        return id;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setID(Integer ID) {
+        this.id = ID;
     }
 
     public String getTenLop() {

@@ -7,12 +7,16 @@ import com.learn.start.dto.request.CauHoiDTO_Req;
 import com.learn.start.dto.response.CauHoiDTO_Res;
 import com.learn.start.entity.CauHoi;
 import com.learn.start.response.Res;
+import com.learn.start.security.CustomUserDetails;
 import com.learn.start.service.CauHoiService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -49,6 +53,32 @@ public class CauHoiController {
         List<CauHoiDTO_Res> result = cauHoiService.filterCauHoi(giaovien, chuong, mucdo);
         return ResponseEntity.ok(new Res(true,MessageConstrains.SUCCESS, result));
     }
+    @GetMapping("/filter2")
+    public ResponseEntity<Res<?>> filterCauHoi(
+            @RequestParam(required = false) Integer lop,
+            @RequestParam(required = false) Integer mon,
+            @RequestParam(required = false) Integer chuong,
+            @RequestParam(required = false) Integer mucdo
+    ) {
+
+        List<CauHoiDTO_Res> result = cauHoiService.filterCauHoi(lop, mon, chuong, mucdo);
+        return ResponseEntity.ok(new Res<>(true, MessageConstrains.SUCCESS, result));
+    }
+    @PreAuthorize("hasRole('GV')")
+    @GetMapping("/filter3")
+    public ResponseEntity<Res<?>> filterCauHoiGV(
+            @RequestParam(required = false) Integer lop,
+            @RequestParam(required = false) Integer mon,
+            @RequestParam(required = false) Integer chuong,
+            @RequestParam(required = false) Integer mucdo
+    ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        int id = userDetails.getId();
+
+        List<CauHoiDTO_Res> result = cauHoiService.filterCauHoiGV(lop, mon, chuong, mucdo, id);
+        return ResponseEntity.ok(new Res<>(true, MessageConstrains.SUCCESS, result));
+    }
     @PostMapping
     public ResponseEntity<CauHoi> createCauHoi(@Valid @RequestBody CauHoiDTO_Req req) {
         CauHoi created = cauHoiService.createCauHoi(req);
@@ -64,6 +94,7 @@ public class CauHoiController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new Res<>(false, MessageConstrains.ERROR, null));        }
     }
+
     @PostMapping("/import2")
     public ResponseEntity<?> importCauHoi(
             @RequestPart("cauHoiListJson") String cauHoiListJson,
@@ -94,7 +125,7 @@ public class CauHoiController {
                 list.get(sttNumber -1 ).setHinhAnhDa(file);
             }
         }
-        Integer res = cauHoiService.importQuestionsImage(list);
+        Integer res = cauHoiService.importQuestionsImageImpInt(list);
         if(res > 0 ) {
             System.out.println(res);
             return ResponseEntity.ok(new Res(true, MessageConstrains.SUCCESS, res));

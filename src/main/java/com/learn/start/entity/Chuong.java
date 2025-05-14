@@ -12,8 +12,9 @@ public class Chuong {
     private Integer id;
     @Column(name="TENCHUONG")
     private String tenChuong;
-    @Column(name="IDMON")
-    private int idMon;
+    @ManyToOne
+    @JoinColumn(name = "IDMON", referencedColumnName = "ID")
+    private Mon mon;
 
     public Chuong() {
     }
@@ -22,11 +23,7 @@ public class Chuong {
         this.id = id;
     }
 
-    public Chuong(int id, String tenChuong, int idMon) {
-        this.id = id;
-        this.tenChuong = tenChuong;
-        this.idMon = idMon;
-    }
+
 
     public int getId() {
         return id;
@@ -44,11 +41,15 @@ public class Chuong {
         this.tenChuong = tenChuong;
     }
 
-    public int getIdMon() {
-        return idMon;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public void setIdMon(int idMon) {
-        this.idMon = idMon;
+    public Mon getMon() {
+        return mon;
+    }
+
+    public void setMon(Mon mon) {
+        this.mon = mon;
     }
 }

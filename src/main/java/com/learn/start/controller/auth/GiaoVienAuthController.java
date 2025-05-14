@@ -5,10 +5,13 @@ import com.learn.start.dto.response.ChuongDTO_Res;
 import com.learn.start.dto.response.GiaoVienDTO_Res;
 import com.learn.start.entity.GiaoVien;
 import com.learn.start.response.Res;
+import com.learn.start.security.CustomUserDetails;
 import com.learn.start.service.GiaoVienService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -35,5 +38,13 @@ public class GiaoVienAuthController {
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new Res<>(false, MessageConstrains.ERROR, null));
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Res<?>> giaoVieninfo(@PathVariable int id) {
+        GiaoVienDTO_Res res = giaoVienService.getGiaoVienById2(id);
+        if(res == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Res<>(false, MessageConstrains.NOT_FOUND,null));
+        }
+        return ResponseEntity.ok(new Res<>(true, MessageConstrains.SUCCESS,res));
     }
 }

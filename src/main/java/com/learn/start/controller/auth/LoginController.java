@@ -25,8 +25,8 @@ public class LoginController {
     @PostMapping("/login")
     public Res login(@RequestBody LoginDTO_Req request) {
         if ("admin".equals(request.getEmail()) && "123".equals(request.getPassword())) {
-            String token = jwtUtil.generateToken(1,request.getEmail(),3,"ADMIN");
-            return new Res(true, MessageConstrains.SUCCESS, new JwtResponse(token, "admin", "ADMIN"));
+            String token = jwtUtil.generateToken(1,"admin@gmail.com",3,"AD");
+            return new Res(true, MessageConstrains.SUCCESS, new JwtResponse(token, "admin", "AD"));
         } else {
             return new Res(false, MessageConstrains.LOGIN_FALSE, null);
         }

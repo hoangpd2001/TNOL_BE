@@ -92,7 +92,112 @@ public class CauHoiService {
 
         return res;
     }
+    public List<CauHoiDTO_Res> filterCauHoi(Integer idLop, Integer idMon, Integer idChuong, Integer mucDo) {
+        List<CauHoi> list;
 
+
+        if (idChuong != null) {
+            if (mucDo != null) {
+                list = cauHoiRepository.findByChuong_IdAndMucDo(idChuong, mucDo);
+            } else {
+                list = cauHoiRepository.findByChuong_Id( idChuong);
+            }
+        } else if (idMon != null) {
+            if (mucDo != null) {
+                list = cauHoiRepository.findByChuong_Mon_IdAndMucDo( idMon, mucDo);
+            } else {
+                list = cauHoiRepository.findByChuong_Mon_Id(idMon);
+            }
+        } else if (idLop != null) {
+            if (mucDo != null) {
+                list = cauHoiRepository.findByChuong_Mon_Lop_IdAndMucDo(idLop, mucDo);
+            } else {
+                list = cauHoiRepository.findByChuong_Mon_Lop_Id(idLop);
+            }
+        } else {
+            // Không có gì -> trả tất cả
+            if (mucDo != null) {
+                list = cauHoiRepository.findByMucDo(mucDo);
+            } else {
+                list = cauHoiRepository.findAll();
+            }
+        }
+
+        List<CauHoiDTO_Res> res = new ArrayList<>();
+        for (CauHoi c : list) {
+
+            CauHoiDTO_Res dto = new CauHoiDTO_Res();
+            dto.setId(c.getId());
+            dto.setTenChuong(c.getChuong() != null ? c.getChuong().getTenChuong() : null);
+            //  dto.setTenGiaoVien(c.getGiaoVien() != null ? c.getGiaoVien().getHoTen() : null);
+            dto.setMucDo(c.getMucDo());
+            dto.setDe(c.getDe());
+            dto.setA(c.getA());
+            dto.setB(c.getB());
+            dto.setC(c.getC());
+            dto.setD(c.getD());
+            dto.setDapAn(c.getDapAn());
+            dto.setHinhAnh(c.getHinhAnh());
+            dto.setTrangThai(c.getTrangThai());
+            dto.setChiTiet(c.getChiTiet());
+            dto.setHinhAnhDa(c.getHinhAnhDa());
+            res.add(dto);
+        }
+
+        return res;
+    }
+    public List<CauHoiDTO_Res> filterCauHoiGV(Integer idLop, Integer idMon, Integer idChuong, Integer mucDo, Integer idGiaoVien) {
+        List<CauHoi> list;
+
+        if ( idChuong != null) {
+            if (mucDo != null) {
+                list = cauHoiRepository.findByChuong_IdAndMucDoAndGiaoVien_Id(idChuong, mucDo,idGiaoVien);
+            } else {
+                list = cauHoiRepository.findByChuong_IdAndGiaoVien_Id( idChuong,idGiaoVien);
+            }
+        } else if ( idMon != null) {
+            if (mucDo != null) {
+                list = cauHoiRepository.findByChuong_Mon_IdAndMucDoAndGiaoVien_Id( idMon, mucDo,idGiaoVien);
+            } else {
+                list = cauHoiRepository.findByChuong_Mon_IdAndGiaoVien_Id(idMon,idGiaoVien);
+            }
+        } else if (idLop != null) {
+            if (mucDo != null) {
+                list = cauHoiRepository.findByChuong_Mon_Lop_IdAndMucDoAndGiaoVien_Id(idLop, mucDo,idGiaoVien);
+            } else {
+                list = cauHoiRepository.findByChuong_Mon_Lop_IdAndGiaoVien_Id(idLop,idGiaoVien);
+            }
+        } else {
+            // Không có gì -> trả tất cả
+            if (mucDo != null) {
+                list = cauHoiRepository.findByMucDoAndGiaoVien_Id(mucDo,idGiaoVien);
+            } else {
+                list = cauHoiRepository.findAll();
+            }
+        }
+        List<CauHoiDTO_Res> res = new ArrayList<>();
+        for (CauHoi c : list) {
+
+            CauHoiDTO_Res dto = new CauHoiDTO_Res();
+            dto.setId(c.getId());
+            dto.setTenChuong(c.getChuong() != null ? c.getChuong().getTenChuong() : null);
+            //  dto.setTenGiaoVien(c.getGiaoVien() != null ? c.getGiaoVien().getHoTen() : null);
+            dto.setMucDo(c.getMucDo());
+            dto.setDe(c.getDe());
+            dto.setA(c.getA());
+            dto.setB(c.getB());
+            dto.setC(c.getC());
+            dto.setD(c.getD());
+            dto.setDapAn(c.getDapAn());
+            dto.setHinhAnh(c.getHinhAnh());
+            dto.setTrangThai(c.getTrangThai());
+            dto.setChiTiet(c.getChiTiet());
+            dto.setHinhAnhDa(c.getHinhAnhDa());
+            res.add(dto);
+        }
+
+        return res;
+    }
     public CauHoi createCauHoi(CauHoiDTO_Req req) {
         CauHoi c = new CauHoi();
         c.setChuong(chuongRepository.findById(req.getIdChuong()).orElse(null));
@@ -153,8 +258,13 @@ public class CauHoiService {
     }
 
 /// import danh sach cau hoi co hinh anh
-    public Integer importQuestionsImage(List<CauHoiDTO_Req> dtoList) {
-        List<CauHoi> entities = new ArrayList<>();
+    public Integer importQuestionsImageImpInt(List<CauHoiDTO_Req> dtoList) {
+       return importQuestionsImage(dtoList).size();
+    }
+    public List<CauHoi> importQuestionsImageImpList(List<CauHoiDTO_Req> dtoList) {
+        return importQuestionsImage(dtoList);
+    }
+    public List<CauHoi> importQuestionsImage(List<CauHoiDTO_Req> dtoList) { List<CauHoi> entities = new ArrayList<>();
 
         for (CauHoiDTO_Req dto : dtoList) {
             CauHoi ch = new CauHoi();
@@ -231,7 +341,6 @@ public class CauHoiService {
 //            dto.setChiTiet(c.getChiTiet());
 //            res.add(dto);
 //        }
-
-        return saved.size();
+        return saved;
     }
 }

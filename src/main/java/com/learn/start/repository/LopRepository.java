@@ -13,7 +13,6 @@ import java.util.Optional;
 @Repository
 public interface LopRepository extends JpaRepository<Lop, Integer> {
 
-    List<Lop> findAll();
     Optional<Lop> findById(int id);
 
 }

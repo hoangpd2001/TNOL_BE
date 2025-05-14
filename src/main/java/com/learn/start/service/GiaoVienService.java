@@ -34,8 +34,6 @@ public class GiaoVienService {
             res.setId(giaoVien.getId());
             res.setHoTen(giaoVien.getHoTen());
             res.setTruong(giaoVien.getTruong());
-            res.setSdt(giaoVien.getSdt());
-            res.setGmail(giaoVien.getGmail());
             res.setTrangThai(giaoVien.getTrangThai());
             if(giaoVien.getAnh() != null){
                 res.setAnh("/uploads/" + giaoVien.getAnh());
@@ -52,10 +50,29 @@ public class GiaoVienService {
             res.setId(gv.get().getId());
             res.setHoTen(gv.get().getHoTen());
             res.setTruong(gv.get().getTruong());
-            res.setCccd(gv.get().getCccd());
-            res.setSdt(gv.get().getSdt());
+           // res.setCccd(gv.get().getCccd());
+           // res.setSdt(gv.get().getSdt());
             res.setGmail(gv.get().getGmail());
             res.setTrangThai(gv.get().getTrangThai());
+            res.setAnh( gv.get().getAnh());
+            res.setGhiChu(gv.get().getGhiChu());
+            return res;
+        }
+        return null;
+    }
+    public GiaoVienDTO_Res getGiaoVienById2(Integer id) {
+        Optional<GiaoVien> gv = giaoVienRepository.findById(id);
+        if (gv.isPresent()) {
+            GiaoVienDTO_Res res = new GiaoVienDTO_Res();
+            res.setId(gv.get().getId());
+            res.setHoTen(gv.get().getHoTen());
+            res.setTruong(gv.get().getTruong());
+            // res.setCccd(gv.get().getCccd());
+            // res.setSdt(gv.get().getSdt());
+            res.setGmail(gv.get().getGmail());
+            res.setTrangThai(gv.get().getTrangThai());
+            res.setAnh( gv.get().getAnh());
+            res.setGhiChu(gv.get().getGhiChu());
             return res;
         }
         return null;

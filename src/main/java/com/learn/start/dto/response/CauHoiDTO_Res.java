@@ -12,6 +12,19 @@ public class CauHoiDTO_Res {
     private Integer trangThai;
     private String chiTiet;
     private String hinhAnhDa;
+    private String daOnLuyen;
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getDaOnLuyen() {
+        return daOnLuyen;
+    }
+
+    public void setDaOnLuyen(String daOnLuyen) {
+        this.daOnLuyen = daOnLuyen;
+    }
 
     public String getHinhAnhDa() {
         return hinhAnhDa;

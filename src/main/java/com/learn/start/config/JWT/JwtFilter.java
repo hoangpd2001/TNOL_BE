@@ -34,32 +34,25 @@ public class JwtFilter extends OncePerRequestFilter {
             if (authHeader != null && authHeader.startsWith("Bearer ")) {
                 String token = authHeader.substring(7);
                 if (jwtUtil.validateToken(token)) {
-
                     CustomUserDetails userDetails = jwtUtil.extractToken(token);
-
                     UsernamePasswordAuthenticationToken authentication =
-                            new UsernamePasswordAuthenticationToken(userDetails, null, new ArrayList<>());
+                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 } else {
-                    writeErrorResponse(response, MessageConstrains.TOKEN_ERR);
+                    writeErrorResponse(response, "Token không hợp lệ");
                     return;
                 }
             } else {
-                // Không phải endpoint /auth thì phải có token
                 if (!request.getRequestURI().startsWith("/auth")) {
-                    System.out.println("khong co token");
-                    writeErrorResponse(response, MessageConstrains.LOGIN);
+                    writeErrorResponse(response, "Token không có trong yêu cầu");
                     return;
                 }
             }
-
-
-
         } catch (Exception e) {
-            // Bắt lỗi bất ngờ, không throw, mà trả JSON luôn
-            System.out.println("khong co token2");
-            writeErrorResponse(response, MessageConstrains.ERROR);
+            e.printStackTrace();  // Đảm bảo in ra thông tin lỗi để debug
+            writeErrorResponse(response, "Đã xảy ra lỗi hệ thống");
         }
+
         // Nếu không lỗi gì thì tiếp tục
         filterChain.doFilter(request, response);
     }

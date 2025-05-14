@@ -12,15 +12,14 @@ public class Mon {
 
     @Column(name = "TENMON")
     private String tenMon;
-    @Column(name = "IDLOP")
-    private int idLop;
+    @ManyToOne
+    @JoinColumn(name = "IDLOP", referencedColumnName = "ID")
+    private Lop lop;
     public Mon() {
     }
 
-    public Mon(int id, String tenMon, int idLop) {
+    public Mon(int id) {
         this.id = id;
-        this.tenMon = tenMon;
-        this.idLop = idLop;
     }
 
     public int getId() {
@@ -39,13 +38,11 @@ public class Mon {
         this.tenMon = tenMon;
     }
 
-    public int getIdLop() {
-        return idLop;
+    public Lop getLop() {
+        return lop;
     }
 
-    public void setIdLop(int idLop) {
-        this.idLop = idLop;
+    public void setLop(Lop lop) {
+        lop = lop;
     }
-
-
 }

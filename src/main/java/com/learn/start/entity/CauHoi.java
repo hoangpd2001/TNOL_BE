@@ -67,6 +67,9 @@ public class CauHoi {
     }
 
 
+    public CauHoi(int id) {
+        this.id = id;
+    }
 
     public CauHoi() {
     }

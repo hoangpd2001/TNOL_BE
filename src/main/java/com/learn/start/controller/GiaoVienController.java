@@ -6,10 +6,14 @@ import com.learn.start.dto.response.ChuongDTO_Res;
 import com.learn.start.dto.response.GiaoVienDTO_Res;
 import com.learn.start.entity.GiaoVien;
 import com.learn.start.response.Res;
+import com.learn.start.security.CustomUserDetails;
 import com.learn.start.service.GiaoVienService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,16 +29,19 @@ public class GiaoVienController {
     public ResponseEntity<Res<?>> list() {
         return ResponseEntity.ok(new Res<>(true, MessageConstrains.SUCCESS,giaoVienService.getGiaoVien()));
     }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Res<?>> list(@PathVariable int id) {
-
+    @PreAuthorize("hasRole('GV')")
+    @GetMapping("/giaovieninfo")
+    public ResponseEntity<Res<?>> giaoVieninfo() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        int id = userDetails.getId();
         GiaoVienDTO_Res res = giaoVienService.getGiaoVienById(id);
         if(res == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Res<>(false, MessageConstrains.NOT_FOUND,null));
         }
         return ResponseEntity.ok(new Res<>(true, MessageConstrains.SUCCESS,res));
     }
+
 //    @PostMapping
 //    public ResponseEntity<Res<?>> save(@ModelAttribute GiaoVienDTO_Req req) {
 //        if(req.getId() != null)return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
