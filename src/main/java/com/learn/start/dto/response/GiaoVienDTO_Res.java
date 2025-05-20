@@ -6,7 +6,7 @@ public class GiaoVienDTO_Res extends UsersDTO_Res {
     private String tkNganHang;
     private String nganHang;
     private int trangThai;
-    private int soDu;
+    private Double soDu;
 
 
 
@@ -54,11 +54,11 @@ public class GiaoVienDTO_Res extends UsersDTO_Res {
         this.trangThai = trangThai;
     }
 
-    public int getSoDu() {
+    public Double getSoDu() {
         return soDu;
     }
 
-    public void setSoDu(int soDu) {
+    public void setSoDu(Double soDu) {
         this.soDu = soDu;
     }
 }

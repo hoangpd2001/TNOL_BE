@@ -10,4 +10,6 @@ import java.util.List;
 public interface KQOnLuyenRepository extends JpaRepository<KQOnLuyen, Integer> {
 
     List<KQOnLuyen> findKQOnLuyenByOnLuyenId(Integer onLuyenId);
+
+    List<KQOnLuyen> getKQOnLuyensByOnLuyen_Id(Integer onLuyenId);
 }

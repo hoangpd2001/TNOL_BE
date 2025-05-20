@@ -10,6 +10,7 @@ import com.learn.start.entity.OnLuyen;
 import com.learn.start.repository.KQOnLuyenRepository;
 import com.learn.start.repository.OnLuyenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,6 +24,11 @@ public class KQOnLuyenService {
     KQOnLuyenRepository kqOnLuyenRepository;
 @Autowired
 CauHoiDeThiService cauHoiDeThiService;
+    @Lazy
+    @Autowired
+    private OnLuyenService onLuyenService;
+
+
     public KQOnLuyenDTO_Res addKQ(KQOnLuyenDTO_Req req){
         KQOnLuyen kq = new KQOnLuyen();
         kq.setId(new KQOnLuyenID(req.getIdCauHoi(), req.getIdOnLuyen()));
@@ -43,8 +49,17 @@ CauHoiDeThiService cauHoiDeThiService;
         return res;
     }
 
-    public String saveAllKq(List<KQOnLuyenDTO_Req> listreq){
+    public List<CauHoiDTO_Res> saveAllKq(List<KQOnLuyenDTO_Req> listreq){
         List<KQOnLuyen> list = new ArrayList<>();
+        if(listreq == null || listreq.size() == 0){
+            return null;
+        }
+        if(listreq.size() == 1 && listreq.getFirst().getIdCauHoi() == 0){
+
+            Integer idOnLuyen= listreq.getFirst().getIdOnLuyen();
+            List<CauHoiDTO_Res> listRes = cauHoiDeThiService.getByIdDeThi(onLuyenService.findOne(idOnLuyen).getDeThi().getId());
+            return listRes;
+        }else{
         for(KQOnLuyenDTO_Req req : listreq){
             KQOnLuyen kq = new KQOnLuyen();
             kq.setId(new KQOnLuyenID(req.getIdCauHoi(), req.getIdOnLuyen()));
@@ -54,29 +69,35 @@ CauHoiDeThiService cauHoiDeThiService;
             list.add(kq);
         }
         list = kqOnLuyenRepository.saveAll(list);
-        int dem = cauHoiDeThiService.getByIdDeThi(list.getFirst().getOnLuyen().getDeThi().getId()).size();
-        int dung = 0;
-        for(KQOnLuyen kqonLuyen : list){
-            if(kqonLuyen.getDapan().toUpperCase().equals(kqonLuyen.getCauHoi().getDapAn().toUpperCase())){
-                ++dung;
+        List<CauHoiDTO_Res> listRes= cauHoiDeThiService.getByIdDeThi(list.getFirst().getOnLuyen().getDeThi().getId());
+
+        for(CauHoiDTO_Res res : listRes){
+            for(KQOnLuyen kq : list){
+                if(kq.getCauHoi().getId() == res.getId()){
+                    res.setDaOnLuyen(kq.getDapan());
+                }
             }
-//            CauHoiDTO_Res res = new CauHoiDTO_Res();
-//            res.setDe(kqonLuyen.getCauHoi().getDe());
-//            res.setA(kqonLuyen.getCauHoi().getA());
-//            res.setB(kqonLuyen.getCauHoi().getB());
-//            res.setC(kqonLuyen.getCauHoi().getC());
-//            res.setD(kqonLuyen.getCauHoi().getD());
-//            res.setDapAn(kqonLuyen.getCauHoi().getDapAn());
-//            res.setDaOnLuyen(kqonLuyen.getDapan());
-//            res.setHinhAnh(kqonLuyen.getCauHoi().getHinhAnh());
-//            res.setHinhAnhDa(kqonLuyen.getCauHoi().getHinhAnhDa());
-//            res.setId(kqonLuyen.getCauHoi().getId());
-//            res.setMucDo(kqonLuyen.getCauHoi().getMucDo());
         }
-        String x = dung + "/" + dem;
-                ;
-        return x;
+
+        return listRes;}
     }
+    public List<CauHoiDTO_Res> getKqtoOnLuyen(OnLuyen onLuyen){
+
+            List<KQOnLuyen>  listKQ = kqOnLuyenRepository.getKQOnLuyensByOnLuyen_Id(onLuyen.getId());
+            List<CauHoiDTO_Res> listRes= cauHoiDeThiService.getByIdDeThi(onLuyen.getDeThi().getId());
+
+            for(CauHoiDTO_Res res : listRes){
+                for(KQOnLuyen kq : listKQ){
+                    if(kq.getCauHoi().getId() == res.getId()){
+                        res.setDaOnLuyen(kq.getDapan());
+                    }
+                }
+            }
+
+            return listRes;
+    }
+
+
     public List<CauHoiDTO_Res> checkKqNotLogin(List<KQOnLuyenDTO_Req> listreq) {
 
         Integer idDeThi= listreq.getFirst().getIdOnLuyen();

@@ -29,7 +29,7 @@ public class Users {
     @JoinColumn(name = "IDROLE", referencedColumnName = "ID")
     private Role role;
     @Column(name = "SODU")
-    private int soDu;
+    private Double soDu;
 
     public Users(Integer id) {
         this.id = id;
@@ -38,11 +38,11 @@ public class Users {
     public Users() {
     }
 
-    public int getSoDu() {
+    public Double getSoDu() {
         return soDu;
     }
 
-    public void setSoDu(int soDu) {
+    public void setSoDu(Double soDu) {
         this.soDu = soDu;
     }
 

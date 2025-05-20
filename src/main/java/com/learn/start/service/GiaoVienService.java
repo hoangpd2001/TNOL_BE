@@ -56,6 +56,7 @@ public class GiaoVienService {
             res.setTrangThai(gv.get().getTrangThai());
             res.setAnh( gv.get().getAnh());
             res.setGhiChu(gv.get().getGhiChu());
+
             return res;
         }
         return null;
@@ -91,7 +92,7 @@ public class GiaoVienService {
         giaoVien.setTkNganHang(null);
         giaoVien.setNganHang(null);
         giaoVien.setTrangThai(1);
-        giaoVien.setSoDu(0);
+        giaoVien.setSoDu(0D);
         giaoVien.setRole(new Role(2));
        giaoVien.setAnh("");
 

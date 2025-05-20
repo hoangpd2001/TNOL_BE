@@ -50,6 +50,7 @@ public class CauHoiDeThiService {
                 resDTO.setB(c.getCauHoi().getB());
                 resDTO.setC(c.getCauHoi().getC());
                 resDTO.setD(c.getCauHoi().getD());
+                resDTO.setTenGiaoVien(c.getDeThi().getGiaoVien().getHoTen());
                 resDTO.setDapAn(c.getCauHoi().getDapAn());
                 resDTO.setTrangThai(c.getCauHoi().getTrangThai());
                 resDTO.setHinhAnh(c.getCauHoi().getHinhAnh());

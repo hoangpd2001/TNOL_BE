@@ -8,11 +8,18 @@ import com.learn.start.dto.response.LoginDTO_Res;
 import com.learn.start.entity.Users;
 import com.learn.start.response.Res;
 import com.learn.start.service.LoginService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.learn.start.config.VnPayConfig.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -41,4 +48,6 @@ public class LoginController {
             return new Res(false, MessageConstrains.LOGIN_FALSE, null);
         }
     }
+
+
 }

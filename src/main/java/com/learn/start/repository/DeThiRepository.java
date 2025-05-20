@@ -17,6 +17,4 @@ public interface DeThiRepository extends JpaRepository<DeThi, Integer> {
     List<DeThi> findByChuong_Mon_Lop_Id( Integer lopId);
     List<DeThi> findByChuong_Mon_Id( Integer monId);
     List<DeThi> findByChuong_Id( Integer chuongId);
-
-
 }

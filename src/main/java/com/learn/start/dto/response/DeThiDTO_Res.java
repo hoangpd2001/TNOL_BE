@@ -69,6 +69,12 @@ public class DeThiDTO_Res {
 
     public DeThiDTO_Res() {}
 
+    public DeThiDTO_Res(Integer id, String tenDeThi, Double giaTien) {
+        this.id = id;
+        this.tenDeThi = tenDeThi;
+        this.giaTien = giaTien;
+    }
+
     public Integer getLuotXem() {
         return luotXem;
     }

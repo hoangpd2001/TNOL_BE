@@ -35,6 +35,7 @@ public class UserService {
                 map(user -> {
             UsersDTO_Res dto = new UsersDTO_Res();
             dto.setId(user.getId());
+            dto.setHoTen(user.getHoTen());
             dto.setGmail(user.getGmail());
             dto.setMk(user.getMk());
             dto.setRoleName(user.getRole().getTenRole());
@@ -43,9 +44,20 @@ public class UserService {
             dto.setNgaySinh(user.getNgaySinh());
             dto.setTruong(user.getTruong());
             dto.setSdt(user.getSdt());
+            dto.setSoDu(user.getSoDu());
             return dto;
         });
 
+    }
+
+    public boolean updateSoDu(Integer userId, Double soTienThemVao) {
+        Optional<Users> optionalUser = userRepository.getUsersById(userId);
+        if (optionalUser.isEmpty()) return false;
+        Users user = optionalUser.get();
+        Double soDuHienTai = user.getSoDu() != null ? user.getSoDu() : 0D;
+        user.setSoDu(soDuHienTai + soTienThemVao);
+        userRepository.save(user);
+        return true;
     }
 
 //

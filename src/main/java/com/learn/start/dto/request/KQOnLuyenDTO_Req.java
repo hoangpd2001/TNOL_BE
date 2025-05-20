@@ -10,7 +10,7 @@ public class KQOnLuyenDTO_Req {
     @NotNull(message = "ID ôn luyện không được để trống")
     private Integer idOnLuyen;
 
-    @NotNull(message = "Đáp án không được để trống")
+  //  @NotNull(message = "Đáp án không được để trống")
     private String dapAn;
 
     public KQOnLuyenDTO_Req() {

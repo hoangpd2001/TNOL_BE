@@ -30,7 +30,7 @@ public class UsersDTO_Res {
         this.roleId = roleId;
     }
 
-    private int soDu;
+    private Double soDu;
 
     public Date getNgaySinh() {
         return ngaySinh;
@@ -64,15 +64,21 @@ public class UsersDTO_Res {
         this.mk = mk;
     }
 
-    public int getSoDu() {
+    public Double getSoDu() {
         return soDu;
     }
 
-    public void setSoDu(int soDu) {
+    public void setSoDu(Double soDu) {
         this.soDu = soDu;
     }
 
     public UsersDTO_Res() {
+    }
+
+    public UsersDTO_Res( Integer id, String hoTen,String gmail) {
+        this.gmail = gmail;
+        this.id = id;
+        this.hoTen = hoTen;
     }
 
     public Integer getId() {
