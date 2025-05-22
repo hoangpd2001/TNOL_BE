@@ -33,6 +33,12 @@ public class JwtFilter extends OncePerRequestFilter {
         try {
             if (authHeader != null && authHeader.startsWith("Bearer ")) {
                 String token = authHeader.substring(7);
+                if (request.getHeader("Upgrade") != null &&
+                        request.getHeader("Upgrade").equalsIgnoreCase("websocket")) {
+                    filterChain.doFilter(request, response);
+                    return;
+                }
+
                 if (jwtUtil.validateToken(token)) {
                     CustomUserDetails userDetails = jwtUtil.extractToken(token);
                     UsernamePasswordAuthenticationToken authentication =
