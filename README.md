@@ -16,6 +16,7 @@
 - 🔐 **Đăng nhập bảo mật bằng JWT**
 - 🗃️ **Quản lý lớp học, môn học, chương, mức độ**
 - 📤 **Import đề từ Word/Excel (hỗ trợ đề thi có hình ảnh)**
+- 💻 **Livestream chữa đề trực tiếp**
 - 📝 **Tạo - sửa - xoá câu hỏi trắc nghiệm nhanh chóng**
 - 📊 **Thống kê & biểu đồ kết quả học tập**
 - 💻 **Giao diện học sinh thi thử**
