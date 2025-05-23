@@ -62,7 +62,7 @@ Chạy dự án
 </pre>
 3. Cài đặt Frontend
 <pre>Clone dự án: git clone https://github.com/hoangpd2001/TNOL_FE_U.git
-                       https://github.com/hoangpd2001/TNOL_FE_.git
+                       https://github.com/hoangpd2001/TNOL_FE_AD.git
 
 Truy cập vào thư mục dự án
 
